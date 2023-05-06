@@ -13,16 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\PostController::class, 'index']);
 
 Auth::routes();
 
-Route::get('/p', [App\Http\Controllers\PostController::class, 'create']);
+Route::post('follow/{user}', [App\Http\Controllers\FollowsController::class, 'store']);
+
+
+Route::get('/p/create', [App\Http\Controllers\PostController::class, 'create']);
 Route::post('/p', [App\Http\Controllers\PostController::class, 'store']);
+Route::get('/p/{post}', [App\Http\Controllers\PostController::class, 'show']);
 
 Route::get('/profile/{user}', [App\Http\Controllers\ProfilesController::class, 'index'])->name('profile.show');
+Route::get('/profile/{user}/edit', [App\Http\Controllers\ProfilesController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile/{user}', [App\Http\Controllers\ProfilesController::class, 'update'])->name('profile.update');
 
 // Auth::routes();
 
